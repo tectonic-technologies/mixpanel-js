@@ -4117,7 +4117,6 @@
     /** @const */ var PAYLOAD_TYPE_JSON     = 'json';
     /** @const */ var DEVICE_ID_PREFIX      = '$device:';
 
-
     /*
      * Dynamic... constants? Is that an oxymoron?
      */
@@ -4195,7 +4194,6 @@
      * @constructor
      */
     var MixpanelLib = function() {};
-
 
     /**
      * create_mplib(token:string, config:object, name:string)
@@ -4930,6 +4928,19 @@
 
         return ret;
     });
+
+    // Tectonic apps specific method
+    MixpanelLib.prototype.get_properties = function() {
+        var properties = _.extend(
+            {},
+            _.info.properties(),
+            _.info.marketingParams(),
+            this['persistence'].properties(),
+            this.unpersisted_superprops
+        );
+
+        return properties;
+    };
 
     /**
      * Register the current user into one/many groups.
@@ -6011,13 +6022,15 @@
     MixpanelLib.prototype['start_batch_senders']                = MixpanelLib.prototype.start_batch_senders;
     MixpanelLib.prototype['stop_batch_senders']                 = MixpanelLib.prototype.stop_batch_senders;
 
+    // Custom mixpanel method needed for tectonic apps.
+    MixpanelLib.prototype['get_properties'] = MixpanelLib.prototype.get_properties;
+
     // MixpanelPersistence Exports
     MixpanelPersistence.prototype['properties']            = MixpanelPersistence.prototype.properties;
     MixpanelPersistence.prototype['update_search_keyword'] = MixpanelPersistence.prototype.update_search_keyword;
     MixpanelPersistence.prototype['update_referrer_info']  = MixpanelPersistence.prototype.update_referrer_info;
     MixpanelPersistence.prototype['get_cross_subdomain']   = MixpanelPersistence.prototype.get_cross_subdomain;
     MixpanelPersistence.prototype['clear']                 = MixpanelPersistence.prototype.clear;
-
 
     var instances = {};
     var extend_mp = function() {
