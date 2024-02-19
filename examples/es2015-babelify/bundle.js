@@ -5594,6 +5594,32 @@ _.HTTPBuildQuery = function (formdata, arg_separator) {
     return tmp_arr.join(arg_separator);
 };
 
+_.getAllQueryParams = function (queryString) {
+    var params = {};
+    try {
+        if (!_.isUndefined(queryString)) {
+            var hashes = queryString.slice(queryString.indexOf('?') + 1).split('&');
+            _.each(hashes, function (hash) {
+                var P = hash.split('=', 2);
+                var key,
+                    value = null;
+                try {
+                    if (P.length == 2) {
+                        key = decodeURIComponent(P[0]);
+                        value = decodeURIComponent(P[1]);
+                        params[key] = value;
+                    }
+                } catch (err) {
+                    console.error('Skipping decoding for malformed query param: ' + value + ' with key ' + key);
+                }
+            });
+        }
+    } catch (err) {
+        console.error('getAllQueryParams failed for query: ' + queryString);
+    }
+    return params;
+};
+
 _.getQueryParam = function (url, param) {
     // Expects a raw URL
 
@@ -6266,6 +6292,7 @@ _.info = {
             '$device': _.info.device(userAgent)
         }), {
             '$current_url': win.location.href,
+            '$current_url_params': _.getAllQueryParams(win.location.search),
             '$browser_version': _.info.browserVersion(userAgent, navigator.vendor, windowOpera),
             '$screen_height': screen.height,
             '$screen_width': screen.width,
@@ -6286,13 +6313,18 @@ _.info = {
     },
 
     mpPageViewProperties: function mpPageViewProperties() {
-        return _.strip_empty_properties({
+        var defaultProps = _.strip_empty_properties({
             'current_page_title': document.title,
             'current_domain': win.location.hostname,
             'current_url_path': win.location.pathname,
             'current_url_protocol': win.location.protocol,
             'current_url_search': win.location.search
         });
+        var URLParams = _.getAllQueryParams(win.location.search);
+        if (!_.isEmptyObject(URLParams)) {
+            defaultProps['current_url_params'] = URLParams;
+        }
+        return defaultProps;
     }
 };
 
