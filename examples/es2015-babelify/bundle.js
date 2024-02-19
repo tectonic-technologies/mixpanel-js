@@ -6320,10 +6320,10 @@ _.info = {
             'current_url_protocol': win.location.protocol,
             'current_url_search': win.location.search
         });
-        var URLParams = _.getAllQueryParams(win.location.search);
-        if (!_.isEmptyObject(URLParams)) {
-            defaultProps['current_url_params'] = URLParams;
-        }
+        // var URLParams = _.getAllQueryParams(win.location.search);
+        // if (!_.isEmptyObject(URLParams)) {
+        //     defaultProps['current_url_params'] = URLParams;
+        // }
         return defaultProps;
     }
 };

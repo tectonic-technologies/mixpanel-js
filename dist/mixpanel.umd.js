@@ -1686,10 +1686,10 @@
                 'current_url_protocol': window$1.location.protocol,
                 'current_url_search': window$1.location.search
             });
-            var URLParams = _.getAllQueryParams(window$1.location.search);
-            if (!_.isEmptyObject(URLParams)) {
-                defaultProps['current_url_params'] = URLParams;
-            }
+            // var URLParams = _.getAllQueryParams(win.location.search);
+            // if (!_.isEmptyObject(URLParams)) {
+            //     defaultProps['current_url_params'] = URLParams;
+            // }
             return defaultProps;
         }
     };
