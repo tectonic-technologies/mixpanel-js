@@ -1660,6 +1660,7 @@
                 '$current_url': window$1.location.href,
                 '$current_url_params': _.getAllQueryParams(window$1.location.search),
                 '$browser_version': _.info.browserVersion(userAgent, navigator.vendor, windowOpera),
+                '$heimdall_referrer': _.cookie.get('__tt_heimdall_referrer') || '', // TODO hack for now since we want to send this for default events as well
                 '$screen_height': screen.height,
                 '$screen_width': screen.width,
                 'mp_lib': 'web',
