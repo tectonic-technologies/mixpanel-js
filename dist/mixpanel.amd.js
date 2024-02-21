@@ -981,6 +981,16 @@ define(function () { 'use strict';
         return params;
     };
 
+    _.getHeimdallReferrer = function () {
+        var heimdallReferrer = '';
+        try {
+            heimdallReferrer = _.cookie.get('__tt_heimdall_referrer') || '';
+        } catch (err) {
+            console.error('getHeimdallReferrer failed');
+        }
+        return heimdallReferrer;
+    };
+
     _.getQueryParam = function (url, param) {
         // Expects a raw URL
 
@@ -1656,7 +1666,7 @@ define(function () { 'use strict';
                 '$current_url': window$1.location.href,
                 '$current_url_params': _.getAllQueryParams(window$1.location.search),
                 '$browser_version': _.info.browserVersion(userAgent, navigator.vendor, windowOpera),
-                '$heimdall_referrer': _.cookie.get('__tt_heimdall_referrer') || '', // TODO hack for now since we want to send this for default events as well
+                '$heimdall_referrer': _.getHeimdallReferrer(), // TODO hack for now since we want to send this for default events as well
                 '$screen_height': screen.height,
                 '$screen_width': screen.width,
                 'mp_lib': 'web',
